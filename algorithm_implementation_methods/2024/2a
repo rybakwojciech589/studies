@@ -1,0 +1,53 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ll long long
+#define ld long double
+#define pb push_back
+#define nd second
+#define st first
+#define sz size
+#define forr(i, n) for(int i=1;i<=n;i++)
+const ll infl=1e18+90;
+const int inf=1e9+90;
+const int roz=1e5+93;
+
+int cena[roz], odw[roz];
+vector<int> graf[roz];
+
+int dfs(int u)
+{
+    odw[u]=1;
+    int wyn=cena[u];
+    for(auto it:graf[u])
+    {
+        if(odw[it]==0) wyn=min(wyn, dfs(it));
+    }
+    return wyn;
+}
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, m;
+    cin>>n>>m;
+    for(int i=1;i<=n;i++)
+    {
+        cin>>cena[i];
+    }
+    for(int i=1;i<=m;i++)
+    {
+        int a, b;
+        cin>>a>>b;
+        graf[a].pb(b);
+        graf[b].pb(a);
+    }
+    int wynik=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(odw[i]==0) wynik+=dfs(i);
+    }
+    cout<<wynik<<"\n";
+}
