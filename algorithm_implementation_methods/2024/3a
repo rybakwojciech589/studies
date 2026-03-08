@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ll long long
+#define ld long double
+#define pb push_back
+#define nd second
+#define st first
+#define sz size
+#define forr(i, n) for(int i=1;i<=n;i++)
+const ll infl=1e18+90;
+const int inf=1e9+90;
+
+set<char> S;
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int wyn=0;
+        string a;
+        cin>>a;
+        for(auto it:a)
+        {
+            if(S.count(it)==0)
+            {
+                if(S.size()==3)
+                {
+                    wyn++;
+                    S.clear();
+                    S.insert(it);
+                }
+                else
+                {
+                    S.insert(it);
+                }
+            }
+
+        }
+        cout<<wyn+1<<"\n";
+        S.clear();
+    }
+
+}
