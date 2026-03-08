@@ -1,0 +1,96 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ll long long
+#define ld long double
+#define pb push_back
+#define nd second
+#define st first
+#define sz size
+#define forr(i, n) for(int i=1;i<=n;i++)
+const ll infl=1e18+90;
+const int inf=1e9+90;
+const int roz=1e5+93;
+
+vector<int> wek;
+vector<char> lit{'a', 'b', 'c'};
+char tab[roz];
+
+signed main()
+{
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, t;
+    cin>>n>>t;
+    string a, b;
+    cin>>a>>b;
+    for(int i=0;i<a.size();i++)
+    {
+        if(a[i]!=b[i]) wek.pb(i);
+    }
+    for(int i=0;i<=n;i++) tab[i]='?';
+    if(t<wek.size()/2+wek.size()%2)
+    {
+        cout<<"-1";
+        return 0;
+    }
+    else
+    {
+        for(int i=0;i<wek.size()-wek.size()%2;i++)
+        {
+            if(i%2==0)
+            {
+                tab[wek[i]]=a[wek[i]];
+            }
+            else tab[wek[i]]=b[wek[i]];
+        }
+        if(wek.size()%2!=0)
+        {
+            for(auto it:lit)
+            {
+                if(a[wek[wek.size()-1]]!=it&&b[wek[wek.size()-1]]!=it) tab[wek[wek.size()-1]]=it;
+            }
+        }
+        t-=(wek.size()/2+wek.size()%2);
+        for(int i=0;i<n;i++)
+        {
+            if(tab[i]=='?')
+            {
+                if(t==0) tab[i]=a[i];
+                else
+                {
+                    for(auto it:lit)
+                    {
+                        if(a[i]!=it&&b[i]!=it) tab[i]=it;
+                    }
+                    t--;
+                }
+            }
+        }
+        if(t>0)
+        {
+            for(int i=0;i<wek.size()-wek.size()%2;i+=2)
+            {
+                for(auto it:lit)
+                {
+                    if(a[wek[i]]!=it&&b[wek[i]]!=it)
+                    {
+                        tab[wek[i]]=it;
+                    }
+                }
+                for(auto it:lit)
+                {
+                    if(a[wek[i+1]]!=it&&b[wek[i+1]]!=it)
+                    {
+                        tab[wek[i+1]]=it;
+                    }
+                }
+                t--;
+                if(t==0) break;
+            }
+        }
+    }
+    for(int i=0;i<n;i++) cout<<tab[i];
+
+}
