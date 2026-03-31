@@ -13,3 +13,14 @@ The solution is implemented in OCaml, leveraging its strong pattern-matching cap
   * *Falsum / Absurdity* is implemented using the principle of explosion (`EAbsurd`).
   * *Quantifiers* are handled via dependent typing concepts (e.g., `EPack` and `EUnpack` for existentials, `ETermFun` for universals).
 * **Theorem Validation:** The `check_defs` function processes a sequence of top-level definitions (`Axiom` and `Theorem`). It verifies that each theorem's provided proof accurately yields the stated formula, progressively building a verified global context (`gamma`).
+
+## Functional Spreadsheet Engine (spreadsheet_evaluator.ml)
+
+**Problem Summary:** The project involves building an evaluation engine for a spreadsheet where cells contain more than just simple formulas—they contain expressions from a Turing-complete, functional programming language (a subset of ML). The system must be able to evaluate a 2D grid of these expressions, handle cell-to-cell references, support first-class functions (closures), and safely detect circular dependencies between cells to prevent infinite evaluation loops.
+
+**Solution:**
+The solution is implemented in OCaml as an Abstract Syntax Tree (AST) interpreter extended with spreadsheet-specific logic and cycle detection.
+* **Mini-ML Interpreter:** The core is a recursive evaluator (`eval_env`) that processes an AST (`expr`). It supports arithmetic and boolean logic, conditional branching (`If`), local bindings (`Let`), tuples (`Pair`), and first-class functions with lexical scoping (`Fun`, `Funrec`, returning `VClosure` or `VRecClosure`).
+* **Cell Referencing:** The language includes a `Cell(row, col)` expression. When the evaluator encounters this, it pauses the current context, fetches the expression located at those coordinates in the global spreadsheet grid, and evaluates it.
+* **Cycle Detection:** To handle circular references (e.g., cell A references cell B, which references cell A), the engine implements a depth-based cycle detection algorithm (`is_cyclic_cell`). If the resolution depth exceeds the total number of cells in the grid (`spreadsheet_size`), a cycle is mathematically guaranteed, and the system flags it.
+* **Safe Evaluation:** The main entry point (`eval_spreadsheet`) acts as a safeguard. It first runs the cycle detection over the entire grid. If a circular dependency is found, it safely returns `None`. If the grid is acyclic, it maps the evaluator over the 2D list, reducing all AST expressions into a final 2D list of evaluated `value` types.
