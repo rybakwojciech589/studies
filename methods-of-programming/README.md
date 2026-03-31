@@ -1,3 +1,11 @@
+# Methods of Programming
+
+This repository contains a collection of advanced functional programming projects implemented in OCaml. These assignments were completed as part of the "Methods of Programming" course and focus on exploring complex data structures, language interpretation, and type theory.
+
+Below you will find detailed summaries of the key implementations included in this repository.
+
+---
+
 ## Formal Logic Proof Checker / Type Inference Engine (proof_checker.ml)
 
 **Problem Summary:** The project involves implementing a proof verifier or type checker for a formal logical system, likely based on intuitionistic logic and the Curry-Howard correspondence. The goal is to verify whether a given program (proof expression) correctly inhabits a specific type (logical formula) within a given context. The system must support complex logical constructs, including propositional connectives (AND, OR, NOT/Absurdity, Implication) and quantifiers (Universal and Existential).
