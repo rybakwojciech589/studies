@@ -24,3 +24,14 @@ The solution is implemented in OCaml as an Abstract Syntax Tree (AST) interprete
 * **Cell Referencing:** The language includes a `Cell(row, col)` expression. When the evaluator encounters this, it pauses the current context, fetches the expression located at those coordinates in the global spreadsheet grid, and evaluates it.
 * **Cycle Detection:** To handle circular references (e.g., cell A references cell B, which references cell A), the engine implements a depth-based cycle detection algorithm (`is_cyclic_cell`). If the resolution depth exceeds the total number of cells in the grid (`spreadsheet_size`), a cycle is mathematically guaranteed, and the system flags it.
 * **Safe Evaluation:** The main entry point (`eval_spreadsheet`) acts as a safeguard. It first runs the cycle detection over the entire grid. If a circular dependency is found, it safely returns `None`. If the grid is acyclic, it maps the evaluator over the 2D list, reducing all AST expressions into a final 2D list of evaluated `value` types.
+
+## Scapegoat Tree Implementation (scapegoat_tree.ml)
+
+**Problem Summary:** The project requires the implementation of a self-balancing Binary Search Tree (BST) without the overhead of storing extra balancing information (like colors in Red-Black Trees or heights in AVL Trees) in every node. The tree must dynamically adjust itself during insertions and deletions to guarantee $O(\log n)$ amortized time complexity for basic operations.
+
+**Solution:**
+The solution is implemented in OCaml as a Scapegoat Tree, a type of un-balanced BST that achieves balance by occasionally rebuilding entire subtrees.
+* **Core Data Structure:** The tree is defined using a standard algebraic data type (`tree`). The `sgtree` record acts as a wrapper, keeping track of the current `size` and the historical `max_size` (necessary for triggering rebalances on deletion).
+* **Alpha-Weight Balance:** The tree maintains an $\alpha$-weight balance (configured here with `alpha_num = 3` and `alpha_denom = 4`, meaning $\alpha = 0.75$). A node violates this balance if the size of either of its children exceeds $0.75$ of its own size.
+* **Insertion and Scapegoat Discovery:** During insertion, the tree tracks the depth of the newly added node. If the depth exceeds the permissible limit (`alpha_height`), the algorithm walks back up the insertion path to find the "scapegoat" — the highest node that violates the $\alpha$-weight balance condition.
+* **Subtree Rebuilding:** Once a scapegoat is identified, or when a deletion causes the total tree size to drop significantly relative to `max_size`, the `rebuild_balanced` function is called. It flattens the unbalanced subtree into a sorted list (`tree_to_list`) and perfectly reconstructs it by recursively picking the exact middle element (`split_list_at_middle`) as the new root.
