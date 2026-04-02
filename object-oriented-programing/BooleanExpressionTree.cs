@@ -119,7 +119,7 @@ namespace OOPZadanie3
             {
                 return s[Name];
             }
-            throw new Exception($"Nieznana zmienna: {Name}");
+            throw new Exception($"Unknown variable: {Name}");
         }
 
         public override Formula simplify()
@@ -352,11 +352,11 @@ namespace OOPZadanie3
         }
     }
 
-    public class TestyZadanie3
+    public class Task3Tests
     {
-        public static void Uruchom()
+        public static void Run()
         {
-            Console.WriteLine("--- Uruchamiam Testy Zadanie 3 ---\n");
+            Console.WriteLine("--- Running Task 3 Tests ---\n");
 
             var s = new Dictionary<string, bool>
             {
@@ -365,53 +365,53 @@ namespace OOPZadanie3
                 { "z", true }
             };
 
-            Console.WriteLine("=== TESTY EVALUATE ===");
-            Console.WriteLine($"Stan zmiennych: x={s["x"]}, y={s["y"]}, z={s["z"]}\n");
+            Console.WriteLine("=== EVALUATE TESTS ===");
+            Console.WriteLine($"Variable state: x={s["x"]}, y={s["y"]}, z={s["z"]}\n");
 
             Formula e1 = !Zmienna.Create("x") | (Zmienna.Create("y") & Stala.Create(true));
 
-            Console.WriteLine($"Wyrażenie: {e1}");
-            Console.WriteLine($"Wynik:     {e1.evaluate(s)}\n");
+            Console.WriteLine($"Expression: {e1}");
+            Console.WriteLine($"Result:     {e1.evaluate(s)}\n");
 
             Formula e2 =
                 !(Zmienna.Create("x") | !Zmienna.Create("y"))
                 | (Zmienna.Create("z") & Stala.Create(false));
 
-            Console.WriteLine($"Wyrażenie: {e2}");
-            Console.WriteLine($"Wynik:     {e2.evaluate(s)}\n");
+            Console.WriteLine($"Expression: {e2}");
+            Console.WriteLine($"Result:     {e2.evaluate(s)}\n");
 
 
-            Console.WriteLine("=== TESTY SIMPLIFY ===");
+            Console.WriteLine("=== SIMPLIFY TESTS ===");
 
             Formula s1 =
                 !!Zmienna.Create("x")
                 & (Zmienna.Create("y") | Stala.Create(true));
 
-            Console.WriteLine($"Przed uproszczeniem: {s1}");
-            Console.WriteLine($"Po uproszczeniu:     {s1.simplify()}\n");
+            Console.WriteLine($"Before simplification: {s1}");
+            Console.WriteLine($"After simplification:  {s1.simplify()}\n");
 
             Formula s2 =
                 ((Zmienna.Create("x") & Stala.Create(false)) | Stala.Create(true))
                 & Zmienna.Create("z");
 
-            Console.WriteLine($"Przed uproszczeniem: {s2}");
-            Console.WriteLine($"Po uproszczeniu:     {s2.simplify()}\n");
+            Console.WriteLine($"Before simplification: {s2}");
+            Console.WriteLine($"After simplification:  {s2.simplify()}\n");
 
             Formula s3 =
                 (Zmienna.Create("x") | Stala.Create(false))
                 & !Stala.Create(false);
 
-            Console.WriteLine($"Przed uproszczeniem: {s3}");
-            Console.WriteLine($"Po uproszczeniu:     {s3.simplify()}\n");
+            Console.WriteLine($"Before simplification: {s3}");
+            Console.WriteLine($"After simplification:  {s3.simplify()}\n");
 
             Formula s4 =
                 (Zmienna.Create("x") | Stala.Create(false))
                 & !!Zmienna.Create("y");
 
-            Console.WriteLine($"Przed uproszczeniem: {s4}");
-            Console.WriteLine($"Po uproszczeniu:     {s4.simplify()}\n");
+            Console.WriteLine($"Before simplification: {s4}");
+            Console.WriteLine($"After simplification:  {s4.simplify()}\n");
 
-            Console.WriteLine("=== TESTY EQUALS ===");
+            Console.WriteLine("=== EQUALS TESTS ===");
 
             Formula f1 = Zmienna.Create("x") & (Zmienna.Create("y") | Stala.Create(true));
             Formula f2 = Zmienna.Create("x") & (Zmienna.Create("y") | Stala.Create(true));
@@ -427,45 +427,45 @@ namespace OOPZadanie3
             Console.WriteLine($"{f4} == {f5} ? {f4.Equals(f5)}");
             Console.WriteLine($"{f4} == {f6} ? {f4.Equals(f6)}\n");
 
-            Console.WriteLine("=== TESTY OPERATORÓW ===");
+            Console.WriteLine("=== OPERATOR TESTS ===");
 
             Formula op1 = !Zmienna.Create("x");
             Console.WriteLine($"!x = {op1}");
-            Console.WriteLine($"Wynik dla x=true: {op1.evaluate(s)}\n");
+            Console.WriteLine($"Result for x=true: {op1.evaluate(s)}\n");
 
             Formula op2 = Zmienna.Create("x") & Zmienna.Create("z");
             Console.WriteLine($"x & z = {op2}");
-            Console.WriteLine($"Wynik: {op2.evaluate(s)}\n");
+            Console.WriteLine($"Result: {op2.evaluate(s)}\n");
 
             Formula op3 = Zmienna.Create("y") | Zmienna.Create("z");
             Console.WriteLine($"y | z = {op3}");
-            Console.WriteLine($"Wynik: {op3.evaluate(s)}\n");
+            Console.WriteLine($"Result: {op3.evaluate(s)}\n");
 
             Formula op4 = !Zmienna.Create("x") | (Zmienna.Create("y") & Stala.Create(true));
-            Formula op4_konstruktor = new Or(
+            Formula op4_constructor = new Or(
                 new Not(Zmienna.Create("x")),
                 new And(Zmienna.Create("y"), Stala.Create(true))
             );
 
-            Console.WriteLine($"Zapis operatorowy:    {op4}");
-            Console.WriteLine($"Zapis konstruktorowy: {op4_konstruktor}");
-            Console.WriteLine($"Czy są równe?         {op4.Equals(op4_konstruktor)}");
-            Console.WriteLine($"Czy dają ten sam wynik? {op4.evaluate(s) == op4_konstruktor.evaluate(s)}\n");
+            Console.WriteLine($"Operator syntax:    {op4}");
+            Console.WriteLine($"Constructor syntax: {op4_constructor}");
+            Console.WriteLine($"Are they equal?           {op4.Equals(op4_constructor)}");
+            Console.WriteLine($"Do they yield same result? {op4.evaluate(s) == op4_constructor.evaluate(s)}\n");
 
             Formula op5 = !!Zmienna.Create("y");
             Console.WriteLine($"!!y = {op5}");
-            Console.WriteLine($"Wynik: {op5.evaluate(s)}");
-            Console.WriteLine($"Po uproszczeniu: {op5.simplify()}\n");
+            Console.WriteLine($"Result: {op5.evaluate(s)}");
+            Console.WriteLine($"After simplification: {op5.simplify()}\n");
 
             Formula op6 = (Zmienna.Create("x") | Stala.Create(false)) & !Stala.Create(false);
             Console.WriteLine($"(x | false) & !false = {op6}");
-            Console.WriteLine($"Wynik: {op6.evaluate(s)}");
-            Console.WriteLine($"Po uproszczeniu: {op6.simplify()}\n");
+            Console.WriteLine($"Result: {op6.evaluate(s)}");
+            Console.WriteLine($"After simplification: {op6.simplify()}\n");
 
-            Console.WriteLine("=== TESTY FOREACH ===");
+            Console.WriteLine("=== FOREACH TESTS ===");
 
             Formula tree = !(Zmienna.Create("x") & Zmienna.Create("y")) | Stala.Create(true);
-            Console.WriteLine($"Drzewo: {tree}");
+            Console.WriteLine($"Tree: {tree}");
             Console.WriteLine("Preorder:");
 
             foreach (Formula f in tree)
@@ -475,7 +475,7 @@ namespace OOPZadanie3
 
             Console.WriteLine();
 
-            Console.WriteLine("=== TESTY PODPUNKTU E ===");
+            Console.WriteLine("=== SUBTASK E TESTS ===");
 
             Stala a = Stala.Create(false);
             Stala b = Stala.Create(false);
@@ -484,13 +484,13 @@ namespace OOPZadanie3
 
             Console.WriteLine($"false instance 1: {a}");
             Console.WriteLine($"false instance 2: {b}");
-            Console.WriteLine($"Czy to ten sam obiekt? {Object.ReferenceEquals(a, b)}");
+            Console.WriteLine($"Are they the same object? {Object.ReferenceEquals(a, b)}");
 
             Console.WriteLine($"true instance 1: {c}");
             Console.WriteLine($"true instance 2: {d}");
-            Console.WriteLine($"Czy to ten sam obiekt? {Object.ReferenceEquals(c, d)}");
+            Console.WriteLine($"Are they the same object? {Object.ReferenceEquals(c, d)}");
 
-            Console.WriteLine($"Czy false i true to ten sam obiekt? {Object.ReferenceEquals(a, c)}\n");
+            Console.WriteLine($"Are false and true the same object? {Object.ReferenceEquals(a, c)}\n");
 
             Zmienna x1 = Zmienna.Create("x");
             Zmienna x2 = Zmienna.Create("x");
@@ -499,8 +499,8 @@ namespace OOPZadanie3
             Console.WriteLine($"x1 = {x1}");
             Console.WriteLine($"x2 = {x2}");
             Console.WriteLine($"y1 = {y1}");
-            Console.WriteLine($"Czy x1 i x2 to ten sam obiekt? {Object.ReferenceEquals(x1, x2)}");
-            Console.WriteLine($"Czy x1 i y1 to ten sam obiekt? {Object.ReferenceEquals(x1, y1)}");
+            Console.WriteLine($"Are x1 and x2 the same object? {Object.ReferenceEquals(x1, x2)}");
+            Console.WriteLine($"Are x1 and y1 the same object? {Object.ReferenceEquals(x1, y1)}");
         }
     }
 }
