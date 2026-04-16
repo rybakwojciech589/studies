@@ -10,11 +10,11 @@
 
 ---
 
-### Object-Oriented Programming: Literature Observer System (LiteratureApp.java)
+### Object-Oriented Programming: Literature Observer System (GuiApplication.java)
 
-**Problem Summary:** The task requires building an object-oriented system modeling writers, books, and various observers (publishers, critics, readers). The system must enforce a strict, easily modifiable notification order upon new book releases and support persistent data storage across application runs.
-**Solution:** The solution is implemented in Java, emphasizing the SOLID design principles and standard Java I/O for state persistence.
-* **Observer Pattern:** Writers act as subjects, automatically notifying registered entities (Critics, Publishers, Readers) whenever a new book is authored.
-* **Open-Closed Principle (OCP):** A custom comparator (`ObserverComparator`) dictates the notification order based on class types and specific object attributes. This design allows for injecting new notification strategies or adding entirely new observer classes without modifying the existing `Writer` class.
-* **Data Serialization:** The application state (collections of writers, books, and readers) is grouped into a `Database` wrapper and serialized to a binary file (`.dat`) using Java's `Serializable` interface. The application automatically loads existing data on startup or generates mock data if the file does not exist.
-* **Complex Object Associations:** The model maintains rich relationships, such as multi-author books, tracking reading lists for readers, and logging publishing history for publishers, demonstrating strong encapsulation and object interaction.
+**Problem Summary:** The task requires building an object-oriented system modeling authors, books, and various observers (publishers, critics, readers) with a strict, priority-based notification order upon new book releases. Additionally, it requires a graphical user interface (GUI) to seamlessly edit entity properties and persistent data storage across application runs.
+**Solution:** The solution is implemented in Java, emphasizing design patterns, generic programming, and Java Swing for the UI.
+* **Observer Pattern & Prioritization:** Authors act as subjects, automatically notifying registered entities whenever a new book is authored. The notification order is strictly enforced by an `ObserverComparator` that sorts observers based on a predefined priority level (e.g., Critics first, then Publishers, then Readers) and their unique IDs. A custom exception (`DuplicateObserverException`) prevents duplicate observer registrations.
+* **Generics and GUI (Swing):** The application features a dynamic graphical interface built with Java Swing. It utilizes an abstract, generic `EditPanel<T>` class that is concretely implemented for different entities (`AuthorEditPanel`, `BookEditPanel`, `PublisherEditPanel`). This allows for seamless selection, modification, and validation of object properties directly within the UI.
+* **Data Serialization:** The entire application state is grouped into a central `Database` wrapper and serialized to a binary file (`literature_database.ser`) using Java's `Serializable` interface. The application automatically loads existing data on startup or generates initial mock data (e.g., Stanislaw Lem, J.R.R. Tolkien) if the file does not exist.
+* **Complex Object Associations:** The model maintains rich relationships, such as establishing multi-author books dynamically, preventing duplicate author entries, and safely updating the centralized database state directly through interactions with the Swing UI components.
