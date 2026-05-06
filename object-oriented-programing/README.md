@@ -19,6 +19,7 @@
 * **Data Serialization:** The entire application state is grouped into a central `Database` wrapper and serialized to a binary file (`literature_database.ser`) using Java's `Serializable` interface. The application automatically loads existing data on startup or generates initial mock data (e.g., Stanislaw Lem, J.R.R. Tolkien) if the file does not exist.
 * **Complex Object Associations:** The model maintains rich relationships, such as establishing multi-author books dynamically, preventing duplicate author entries, and safely updating the centralized database state directly through interactions with the Swing UI components.
 
+---
 
 ### Object-Oriented Programming: Card War Game with Template Method (card_war_template_method.rb)
 
