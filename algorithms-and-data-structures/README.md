@@ -37,3 +37,15 @@ The problem is solved using Dijkstra's algorithm with custom data structures to 
 * **Algorithmic Insight:** The restriction about passing through cities naturally resolves itself if the salesman visits the target cities ordered by their shortest distance from the capital. By doing so, he will never pass through an unvisited target city (since it would have to be closer, contradicting the sorted order). Thus, the total distance is simply the sum of round trips (2 * shortest path) to each target city.
 * **Custom Min-Heap:** Because `std::priority_queue` and `std::set` are strictly banned, the solution implements a custom Min-Heap structure (`CustomHeap`) from scratch using a `std::vector` and custom `sift_up` / `sift_down` methods to manage the priority queue operations.
 * **Data Types:** The accumulated total distance uses a 64-bit integer (`long long total_dist`) to prevent integer overflow, as the sum of multiple round trips across up to 100,000 cities can easily exceed standard 32-bit limits. The shortest paths are tracked in the `dist` array.
+
+---
+
+## Task D: Trams / Tramwaje (D.cpp)
+
+**Problem Summary:** The city is entering a tram in a quality competition. A tram's quality is defined as the length of its longest contiguous segment of cars with strictly increasing classes (integer values). You are allowed to remove at most one contiguous segment of cars to maximize the resulting tram's quality. A strict constraint for this problem is the prohibition of several built-in STL features, most notably `std::lower_bound`, `std::upper_bound`, and `std::binary_search`. Full details are in `2026_D.pdf`.
+
+**Solution:**
+The problem is solved by identifying contiguous strictly increasing segments and determining the optimal way to "glue" them together by removing the disruptive cars in between. The algorithm draws inspiration from the standard Longest Increasing Subsequence (LIS) optimization but is adapted for contiguous subsegments.
+* **Algorithmic Insight:** As the algorithm linearly scans the tram cars, it tracks the lengths of strictly increasing segments. When an increasing sequence is broken (i.e., a car's class is less than or equal to the previous one), the algorithm attempts to connect the just-finished segment with the optimal previously processed segment. 
+* **State Maintenance (LIS array):** To do this efficiently, the solution maintains an array `d`, where `d[k]` stores the minimum ending value of an increasing segment of length `k`. This allows the algorithm to quickly check if a current increasing sequence can be appended to a previous one of a specific length.
+* **Custom Binary Search:** Because `std::lower_bound` and `std::binary_search` are strictly forbidden, the solution implements a custom binary search `while(pocz < kon - 1)`. This search queries the `d` array to find the longest valid preceding sequence whose ending value is strictly smaller than the starting values of the current sequence being evaluated.
